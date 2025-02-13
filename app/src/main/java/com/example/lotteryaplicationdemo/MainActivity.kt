@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -36,23 +37,49 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun GUI(){
-    var num: String by remember{ mutableStateOf("")}
+    var num1: String by remember{ mutableStateOf("")}
+    var num2: String by remember{ mutableStateOf("")}
+    var num3: String by remember{ mutableStateOf("")}
+    var num4: String by remember{ mutableStateOf("")}
+    var num5: String by remember{ mutableStateOf("")}
+    var num6: String by remember{ mutableStateOf("")}
+    var numbers = calculate().toMutableList()
 
     Column(
-        Modifier.fillMaxSize().border(width = 20.dp, color = Color.DarkGray),
+        Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
-        Text(num, fontSize = 30.sp)
-        Button(onClick = {num = calculate()}){
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ){
+            Text(num1, fontSize = 30.sp)
+            Text(num2, fontSize = 30.sp)
+            Text(num3, fontSize = 30.sp)
+            Text(num4, fontSize = 30.sp)
+            Text(num5, fontSize = 30.sp)
+            Text(num6, fontSize = 30.sp)
+        }
+
+        Button(onClick = {
+            numbers = calculate().toMutableList()
+            num1 = numbers[0].toString()
+            num2 = numbers[1].toString()
+            num3 = numbers[2].toString()
+            num4 = numbers[3].toString()
+            num5 = numbers[4].toString()
+            num6 = numbers[5].toString()
+            })
+        {
             Text("Generate")
         }
+
     }
 
 }
 
 
-fun calculate():String{
+fun calculate():List<Int>{
     var numbers : MutableList<Int> = mutableListOf()
 
     while(numbers.size<6){
@@ -67,6 +94,6 @@ fun calculate():String{
     }
 
     println("Entered calculate()");
-    return res
+    return numbers
 }
 
