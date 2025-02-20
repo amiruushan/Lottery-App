@@ -6,9 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,27 +41,39 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GUI(){
     var num: String by remember{ mutableStateOf("")}
+    var excludeVal: String by remember{ mutableStateOf("")}
 
     Column(
-        Modifier.fillMaxSize().border(width = 20.dp, color = Color.DarkGray),
+        Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
         Text(num, fontSize = 30.sp)
-        Button(onClick = {num = calculate()}){
+        Button(onClick = {num = calculate(excludeVal)}){
             Text("Generate")
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
+        TextField(
+            value = excludeVal,
+            onValueChange = {excludeVal = it},
+            label = { Text("Enter Exclude Number") }
+        )
+
+
     }
 
 }
 
 
-fun calculate():String{
+fun calculate(excludeVal: String):String{
+
+    var excludeVal = excludeVal.split(" ",",").mapNotNull { it.toIntOrNull() }
     var numbers : MutableList<Int> = mutableListOf()
 
     while(numbers.size<6){
-        var num = Random.nextInt(59)+1
-        if (num !in numbers)
+        var num = Random.nextInt(10)+1
+        if (num !in numbers && num !in excludeVal)
             numbers.add(num)
     }
 
@@ -67,6 +83,7 @@ fun calculate():String{
     }
 
     println("Entered calculate()");
+    println(excludeVal);
     return res
 }
 
